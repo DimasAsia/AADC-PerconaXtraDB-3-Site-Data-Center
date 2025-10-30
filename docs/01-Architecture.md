@@ -6,8 +6,19 @@
 - 1 Node khusus untuk **PMM Server + Garbd**
 - Komunikasi antar-site melalui jaringan private VPN (latency 5–15 ms)
 
-+------------+ +------------+ +------------+
-| DC A | | DC B | | DC C |
-| PXC Node 1 | <---> | PXC Node 3 | <---> | PXC Node 5 |
-| PXC Node 2 | | PXC Node 4 | | Garbd+PMM |
-+------------+ +------------+ +------------+
+<img width="690" height="677" alt="percona drawio" src="https://github.com/user-attachments/assets/272d7228-ea15-4136-ac47-9ca9ef62d7fa" />
+
+### Spesifikasi VM
+| Komponen | CPU | RAM | Storage | OS | Fungsi |
+|-----------|-----|------|----------|------|---------|
+| DB Node | 4 vCPU | 8 GB | 300 GB | Ubuntu 20.04 | Database Cluster |
+| PMM + Garbd | 4 vCPU | 4 GB | 200 GB | Ubuntu 20.04 | Monitoring & Quorum |
+| LoadGen | 4 vCPU | 8 GB | 100 GB | Ubuntu 20.04 | Sysbench & JMeter |
+
+---
+
+### Catatan
+- Tidak menggunakan **ProxySQL/HAProxy**
+- Semua koneksi langsung ke node PXC.
+- SSL aktif di semua komunikasi client–server dan antar-node.
+
