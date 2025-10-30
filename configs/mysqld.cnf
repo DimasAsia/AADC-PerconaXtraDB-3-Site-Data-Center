@@ -1,0 +1,116 @@
+# Template my.cnf for PXC
+# Edit to your requirements.
+[client]
+socket=/var/run/mysqld/mysqld.sock
+ssl-key=/etc/ssl/tls/client-key.pem
+ssl-ca=/etc/ssl/tls/ca.pem
+ssl-cert=/etc/ssl/tls/client-cert.pem
+
+[mysqld]
+server-id=1
+datadir=/var/lib/mysql
+socket=/var/run/mysqld/mysqld.sock
+log_error_verbosity=1
+log-error=/var/log/mysql/error.log
+pid-file=/var/run/mysqld/mysqld.pid
+ssl-key=/etc/ssl/tls/server-key.pem
+ssl-ca=/etc/ssl/tls/ca.pem
+ssl-cert=/etc/ssl/tls/server-cert.pem
+
+wsrep_provider_options="gcache.size=3G; gcache.page_size=128M; evs.send_window=20; evs.recv_window=20"
+
+bind-address=0.0.0.0
+port=3306
+wait_timeout=100
+interactive_timeout=100
+max_prepared_stmt_count=1000000
+max_execution_time=1000
+
+#event_scheduler=ON
+
+#max_execution_time = 10000
+
+# General Log (Logs all queries and activities)
+#general_log=0
+#general_log_file=/var/log/mysql/general.log
+
+# Slow Query Log (Logs queries that take longer than a specified time)
+#slow_query_log=1
+#slow_query_log_file=/var/log/mysql/slow.log
+#long_query_time=5
+#log_queries_not_using_indexes=1
+
+# Binary log expiration period is 604800 seconds, which equals 7 days
+binlog_expire_logs_seconds=604800
+
+######## wsrep ###############
+# Path to Galera library
+wsrep_provider=/usr/lib/galera4/libgalera_smm.so
+
+# Cluster connection URL contains IPs of nodes
+#If no IP is found, this implies that a new cluster needs to be created,
+#in order to do that you need to bootstrap this node
+wsrep_cluster_address=gcomm://172.24.xxx.xxx,172.28.xxx.xxx,172.28.xx.xx,172.19.xx.xx,172.19.xx.xx
+
+# In order for Galera to work correctly binlog format should be ROW
+binlog_format=ROW
+
+# Slave thread to use
+wsrep_slave_threads=8
+
+wsrep_log_conflicts
+
+#wsrep_retry_autocommit=10
+wsrep_max_ws_size=3G
+
+# This changes how InnoDB autoincrement locks are managed and is a requirement for Galera
+innodb_autoinc_lock_mode=2
+innodb_flush_log_at_trx_commit=2
+innodb_buffer_pool_size=4G
+#innodb_buffer_pool_instances=0
+innodb_log_file_size=256M
+innodb_log_buffer_size=128M
+innodb_flush_method=O_DIRECT
+innodb_file_per_table=1
+#innodb_io_capacity=400
+#innodb_io_capacity_max=4000
+
+#tmp_table_size=32M
+#max_heap_table_size=32M
+
+table_open_cache=4000
+
+#connections
+max_connections=10000
+max_user_connections=10000
+
+#network
+max_allowed_packet=64M
+mysqlx_max_allowed_packet=64M
+net_buffer_length=16K
+#join_buffer_size=4M
+#sort_buffer_size=4M
+#thread_cache_size=128
+#back_log=10000
+
+# Node IP address
+wsrep_node_address=172.24.168.189
+# Cluster name
+wsrep_cluster_name=pxc-cluster
+
+#If wsrep_node_name is not specified,  then system hostname will be used
+wsrep_node_name=pxc-node-1
+
+#pxc_strict_mode allowed values: DISABLED,PERMISSIVE,ENFORCING,MASTER
+pxc_strict_mode=ENFORCING
+
+# SST method
+wsrep_sst_method=xtrabackup-v2
+
+#If Not using ssl to secure transfer/access data
+#ssl=1
+#require_secure_transport=OFF
+#pxc-encrypt-cluster-traffic=OFF
+
+[sst]
+encrypt=4
