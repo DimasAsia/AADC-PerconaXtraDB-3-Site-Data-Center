@@ -50,3 +50,28 @@ Sysbench version 1.0
 FATAL: mysql_stmt_execute() returned error 2013
 (Lost connection to MySQL server during query)
 ```
+
+
+#### Sample Metrics
+- TPS unstable
+- QPS fluctuating
+- Latency up to ~28 seconds
+- Reconnection attempts failed
+
+---
+
+## Root Cause Analysis
+The failure was caused by hardware resource exhaustion rather than
+architectural or replication design flaws.
+
+---
+
+## Sysbench Limitation
+Sysbench reports timeout errors but cannot terminate long-running queries,
+which contributes to prolonged resource saturation.
+
+---
+
+## Conclusion
+The cluster is stable up to 3000 threads and exhibits predictable degradation
+behavior beyond that threshold.
