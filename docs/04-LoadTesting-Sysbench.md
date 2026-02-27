@@ -1,5 +1,7 @@
 # Load Testing Using Sysbench
 
+![test](../img/Test.png)
+
 ## Tool
 Sysbench version 1.0
 
