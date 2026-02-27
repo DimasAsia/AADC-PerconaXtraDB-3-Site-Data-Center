@@ -1,11 +1,12 @@
 # Monitoring with Percona Monitoring and Management (PMM)
 
-![monitoring](../img/Percona-Monitoring.png)
 
 ## Monitoring Objective
 Monitoring is implemented to provide real-time visibility into system health,
 resource utilization, and replication behavior during normal operation and
 stress scenarios.
+
+![monitoring](../img/Percona-Monitoring.png)
 
 ---
 
